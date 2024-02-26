@@ -1,8 +1,8 @@
-import express from 'express';
-import { PORT, mongoDBURL } from './config.js';
-import mongoose from 'mongoose';
-import booksRoute from './routes/booksRoute.js';
-import cors from 'cors';
+const express = require('express');
+const { PORT, mongoDBURL } = require('../config.js');
+const mongoose = require('mongoose');
+const booksRoute = require('../routes/booksRoute.js');
+const cors = require('cors');
 
 const app = express();
 
