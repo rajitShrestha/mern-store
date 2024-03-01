@@ -18,7 +18,6 @@ pipeline {
                 git branch: 'beanstalk-deploy', 
                     credentialsId: 'git-jenkins', 
                     url: 'https://github.com/rajitShrestha/Book-Store-MERN-Stack.git'
-                sh 'chmod -R 755 /var/lib/jenkins/workspace/mern01' // Adjust permissions recursively to 755
             }
         }
     
@@ -47,17 +46,21 @@ pipeline {
 
         stage('Deploy to Elastic Beanstalk') {
             steps {
-                withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: 'aws-cred'
-                ]]) {
-                    ebDeploy(
-                        awsRegion: "${AWS_REGION}",
-                        applicationName: "${EB_APPLICATION_NAME}",
-                        environmentName: "${EB_ENVIRONMENT_NAME}",
-                        versionLabel: "${VERSION_LABEL}",
-                        sourceBundle: 'project.tar.gz'
-                    )
+                script {
+                    // Configure AWS credentials
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
+                        // Deploy to Elastic Beanstalk
+                        step([$class: 'AWSEBDeploymentBuilder',
+                            credentials: 'aws-cred',
+                            region: 'us-east-1', // AWS region
+                            applicationName: "${EB_APPLICATION_NAME}", // Elastic Beanstalk application name
+                            environmentName: "${EB_ENVIRONMENT_NAME}", // Elastic Beanstalk environment name
+                            fileName: 'project.tar.gz', // Path to your application's .zip file
+                            bucketName: 'jenkins-upload001', // S3 bucket name
+                            timeout: 30, // Timeout in minutes
+                            ignoreHealthStatus: false // Set to true to ignore application health status during deployment
+                        ])
+                    }
                 }
             }
         }
