@@ -4,6 +4,13 @@ pipeline {
     tools{
         nodejs "nodejs"
     }
+
+     environment {
+        AWS_REGION = 'us-east-1'
+        EB_APPLICATION_NAME = 'mern-project'
+        EB_ENVIRONMENT_NAME = 'mern-prod-env'
+        VERSION_LABEL = "1.0.${env.BUILD_NUMBER}" // Use Jenkins BUILD_NUMBER as a part of the version label
+    }
     
     stages {
         stage('Fetch Code') {
@@ -38,13 +45,19 @@ pipeline {
         }
         }
 
-        stage('Deploy to AWS') {
+        stage('Deploy to Elastic Beanstalk') {
             steps {
-                // Upload tarball to AWS Elastic Beanstalk
-                withAWS(region: 'us-east-1', credentials: 'aws-cred') {
-                    sh 'aws s3 cp project.tar.gz s3://jenkins-upload011/'
-                    sh 'aws elasticbeanstalk create-application-version --application-name jenkins-mern --version-label 1.0.0 --source-bundle S3Bucket="jenkins-upload011",S3Key="project.tar.gz"'
-                    sh 'aws elasticbeanstalk update-environment --application-name jenkins-mern --environment-name prod-environment --version-label 1.0.0'
+                withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'aws-cred'
+                ]]) {
+                    ebDeploy(
+                        awsRegion: "${AWS_REGION}",
+                        applicationName: "${EB_APPLICATION_NAME}",
+                        environmentName: "${EB_ENVIRONMENT_NAME}",
+                        versionLabel: "${VERSION_LABEL}",
+                        sourceBundle: 'project.tar.gz'
+                    )
                 }
             }
         }
