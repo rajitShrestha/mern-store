@@ -1,19 +1,24 @@
 {
     "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
+      "browser": true,
+      "commonjs": true,
+      "es2021": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
+      "eslint:recommended",
+      "plugin:react/recommended"
     ],
     "parserOptions": {
-        "ecmaVersion": "latest"
+      "ecmaVersion": "latest"
     },
     "plugins": [
-        "react"
+      "react"
     ],
-    "rules": {
-    }
-}
+    "settings": {
+      "react": {
+        "version": "^18.2.0"
+      }
+    },
+    "rules": {}
+  }
+  
