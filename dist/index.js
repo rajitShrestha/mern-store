@@ -1,6 +1,6 @@
 "use strict";
 
-// require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); // Load environment variables from .env file
 
 var express = require('express');
 var mongoose = require('mongoose');
