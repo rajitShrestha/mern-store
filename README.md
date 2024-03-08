@@ -16,7 +16,7 @@ Running a container from a docker image:
   - Create a dockerimage:
       - Run the command docker run -d -p 80:80 --name react-front react-image
 Notes:
-- For dynamically adjusting the backend_url for connection from the frontend application
+- Dynamically passing backend_url during container runtime
     - In the config.js file, replace the api_url value with "const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5555';"
     - Uncomment the "ENV REACT_APP_BACKEND_URL=http://3.85.8.74:5555" section in the Dockerfile
     - Create an Docker image
