@@ -15,6 +15,10 @@ Frontend-image:
   - For dynamically adjusting the value of backend_url during docker container run-time, unmakr "# ENV REACT_APP_BACKEND_URL=http://3.85.8.74:5555" section and make change the config.js file to access the env variable accordingly
   - Create a dockerimage:
       - Run the command docker run -d -p 80:80 --name react-front react-image
-
-
+Notes:
+- For dynamically adjusting the backend_url for connection from the frontend application
+    - In the config.js file, replace the api_url value with "const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5555';"
+    - Uncomment the "ENV REACT_APP_BACKEND_URL=http://3.85.8.74:5555" section in the Dockerfile
+    - Create an Docker image
+    - Run the command "docker run -e "REACT_APP_BACKEND_URL=your-backend-url" -d -p 80:80 --name react-front react-image
 
