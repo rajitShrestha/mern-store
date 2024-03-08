@@ -14,7 +14,7 @@ RUN npm install
 Run  npx update-browserslist-db@latest
 
 # Set backend URL environment variable
-# ENV REACT_APP_BACKEND_URL=http://3.85.8.74:5555
+ENV REACT_APP_BACKEND_URL=http://localhost:5555
 
 # Build frontend
 RUN vite build
