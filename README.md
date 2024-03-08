@@ -1,5 +1,5 @@
 Running a container from a docker image:
-Backend-image:
+- Backend-image:
   - cd to backend dir
   - Locate the Dockerfile inside it
   - Make the changes to the file accordingly for the port and mongodburl: set your mongodoburl
@@ -7,7 +7,7 @@ Backend-image:
       - Run the command "docker build -t backend-image(image-name) ."
   - Run the docker container from the dockerimage:
       - Run the command "docker run -e PORT=5555 -e "MONGODBURL=mongodb+srv://rajitshrestha646:password@cluster0.e5tlk4i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0cl" -d -p 5555:5555 --name backend backend-image
-Frontend-image:
+- Frontend-image:
   - cd to frontend dir
   - Locate the Dockerfile inside it
   - Make the custom changes according your preference
