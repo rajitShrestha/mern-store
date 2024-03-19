@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+    app:
+        build: ./frontend
+        ports:
+            - "80:80"
+
+    database:
+        build: ./backend
+        environment:
+            - PORT=5555
+            - MONGODBURL=mongodb+srv://rajitshrestha646:snhfuGHLUsbVP4xJ@cluster0.e5tlk4i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0cl
+        ports:
+            - "5555:5555"
+
