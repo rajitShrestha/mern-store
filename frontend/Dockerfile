@@ -8,8 +8,6 @@ COPY package.json package-lock.json .
 
 RUN npm install
 
-RUN  npx update-browserslist-db@latest
-
 # ENV REACT_APP_BACKEND_URL=http://54.162.151.112:5555
 
 COPY . .
