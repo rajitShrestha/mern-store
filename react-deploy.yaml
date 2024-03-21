@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: dockshresthahub/mern-repo:frontend-v4
+        image: dockshresthahub/mern-repo:v5
         ports:
         - containerPort: 80
           name: frontend-port
