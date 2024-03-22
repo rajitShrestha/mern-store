@@ -1,33 +1,54 @@
 pipeline {
     agent any
-
     environment {
-        AWS_DEFAULT_REGION = 'us-east-1'
-        ECR_REPO = 'public.ecr.aws/m7c1j1n8/book-manager'
-        DOCKER_IMAGE_TAG = 'latest'
-        GIT_REPO_URL = 'https://github.com/rajitShrestha/Book-Store-MERN-Stack.git'
-        AWS_CREDENTIALS_ID = 'aws-cred'
+        registryCredential = 'ecr:us-east-1:aws-cred'
+        appRegistry = "927100586272.dkr.ecr.us-east-1.amazonaws.com/book-store"
+        projectRegistry = "https://927100586272.dkr.ecr.us-east-1.amazonaws.com"
+        cluster = "Book-store"
+        service = "bookstore-frontend-svc"
+    }
+  stages {
+    stage('Fetch code'){
+      steps {
+        git branch: 'docker-container', url: 'https://github.com/rajitShrestha/Book-Store-MERN-Stack.git'
+      }
     }
 
-    stages {
-        stage('Clone Repository') {
-            steps {
-                git branch: 'docker-container', url: "${GIT_REPO_URL}"
-            }
-        }
 
-        stage('Build and Push Docker Image') {
-            steps {
+    stage('Build App Image') {
+       steps {
+       
+         script {
+
                 dir('frontend') {
-                    script {
-                        // Build Docker image
-                        sh 'docker build -t ${ECR_REPO}:${DOCKER_IMAGE_TAG} .'
-                        // Push Docker image to ECR
-                        sh 'aws ecr-public get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin public.ecr.aws/m7c1j1n8'
-                        sh 'docker push ${ECR_REPO}:${DOCKER_IMAGE_TAG}'
-                    }
+
+                  dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER")
+
                 }
-            }
-        }
+             }
+
+     }
+    
     }
+
+    stage('Upload App Image') {
+          steps{
+            script {
+              docker.withRegistry( projectRegistry, registryCredential ) {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
+              }
+            }
+          }
+     }
+     
+     stage('Deploy to ecs') {
+          steps {
+        withAWS(credentials: 'aws-cred', region: 'us-east-1') {
+          sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+        }
+      }
+     }
+
+  }
 }
