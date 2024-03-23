@@ -47,8 +47,7 @@ node dist/index.js
 # Access the service via the web using the configured Nginx setup.
 ```
 
-To copy a command, click on the copy button next to it.
-
+### Setup Instruction:
 ```bash
 # Backend Commands
 npm install
