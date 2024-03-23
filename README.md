@@ -1,3 +1,5 @@
+![Architecture-overview](https://github.com/rajitShrestha/Book-Store-MERN-Stack/blob/docker-container/aws-architecture.vpd.jpg?raw=true)
+
 ### Running a container from a Docker image:
 
 #### Backend Image + Fronted image + Docker-compose command:
