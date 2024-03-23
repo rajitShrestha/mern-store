@@ -1,7 +1,3 @@
-## Project Architecture
-
-- The project has been restructured into a microservice architecture with backend and frontend directories.
-
 ### Backend Deployment
 
 ```bash
