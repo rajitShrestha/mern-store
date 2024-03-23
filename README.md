@@ -12,6 +12,9 @@ docker run -e PORT=5555 \
            -d -p 5555:5555 \
            --name backend backend-image
 
+#### Backend Image:
+
+```bash
 # Build the frontend image
 docker build -t frontend-image .
 
