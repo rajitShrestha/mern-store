@@ -1,0 +1,9 @@
+---
+- name: Install Nginx
+  hosts: jenkins_instances
+  become: true
+  tasks:
+    - name: Update package cache
+      package:
+        name: nginx
+        state: present
